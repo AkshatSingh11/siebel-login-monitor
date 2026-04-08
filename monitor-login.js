@@ -19,7 +19,7 @@ const { chromium } = require('playwright');
       'https://sdms.px.indianoil.in/',
       {
         waitUntil: 'domcontentloaded',
-        timeout: 30000
+        timeout: 60000
       }
     );
 
