@@ -1,0 +1,36 @@
+name: Siebel Login Monitor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'   # every 5 minutes
+  workflow_dispatch:        # manual run button
+
+jobs:
+  monitor-login:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: checkout repo code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Step 3: install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: install Playwright browser
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # Step 5: run monitoring script
+      - name: Run Siebel monitor
+        env:
+          SIEBEL_USERNAME: ${{ secrets.SIEBEL_USERNAME }}
+          SIEBEL_PASSWORD: ${{ secrets.SIEBEL_PASSWORD }}
+        run: node monitor-login.js
