@@ -34,3 +34,26 @@ jobs:
           SIEBEL_USERNAME: ${{ secrets.SIEBEL_USERNAME }}
           SIEBEL_PASSWORD: ${{ secrets.SIEBEL_PASSWORD }}
         run: node monitor-login.js
+
+      # Step 6: send alert mail if failure happens
+      - name: Send alert email
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          secure: false
+          username: ${{ secrets.ALERT_EMAIL }}
+          password: ${{ secrets.ALERT_PASSWORD }}
+          subject: "ALERT: Siebel Login Failed"
+          to: akshatsingh@ibm.com
+          from: akshatsingh@ibm.com
+          body: |
+            Alert from Siebel Login Monitor
+
+            Issue detected:
+            - login page failed to load
+            OR
+            - response time exceeded 30 seconds
+
+            Please check immediately.
