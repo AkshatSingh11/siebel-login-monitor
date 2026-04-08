@@ -35,6 +35,13 @@ jobs:
           SIEBEL_PASSWORD: ${{ secrets.SIEBEL_PASSWORD }}
         run: node monitor-login.js
 
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: "*.png"
+
       # Step 6: send alert mail if failure happens
       - name: Send alert email
         if: failure()
