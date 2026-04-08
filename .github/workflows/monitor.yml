@@ -40,20 +40,17 @@ jobs:
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.office365.com
+          server_address: smtp.gmail.com
           server_port: 587
           secure: false
           username: ${{ secrets.ALERT_EMAIL }}
           password: ${{ secrets.ALERT_PASSWORD }}
           subject: "ALERT: Siebel Login Failed"
           to: akshatsingh@ibm.com
-          from: akshatsingh@ibm.com
+          from: ${{ secrets.ALERT_EMAIL }}
           body: |
             Alert from Siebel Login Monitor
-
-            Issue detected:
-            - login page failed to load
-            OR
-            - response time exceeded 30 seconds
-
+      
+            Login page failed OR threshold exceeded 30 seconds.
+      
             Please check immediately.
