@@ -16,7 +16,7 @@ const { chromium } = require('playwright');
   try {
     // Open login page
     await page.goto(
-      'https://access.ex.indianoil.in/oam/server/obrareq.cgi?encquery%3Dle5JmcaeHHAzivRts8AZRYEA3%2BUAhvgNTRLVryBl5KytzBg2IjeDZF%2BC1AOVj2YFNEfqIm8y2chIRiHDNs9ZR3WOeqqvXeddIfpQLkrkJ21eBgYu65cN0%2BBkePVAZYg5eD9g8cG1LMXJCDWBxmVVlK3h6X5cwCKHpCdIzkosFR4OCFllTRULH2LFWVIF3z7POgtD2BN1ZdzoNjjjcDm4OmTh2w6NyuOg%2BkvVrTgiA%2Bw5JoQBfi6iJmzia%2B%2Fo0AHLczgNf%2B6IH2jMK%2FXT6ohFEOZd2MxnR3UJs9YKMLOVaSMmEKBsvffS4lA%2Fays%2BIgVT3gBgxT9hYK6h2mNgEU51Gg%3D%3D',
+      'https://sdms.px.indianoil.in/',
       {
         waitUntil: 'domcontentloaded',
         timeout: 30000
