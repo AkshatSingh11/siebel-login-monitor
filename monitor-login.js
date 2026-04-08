@@ -28,7 +28,7 @@ const { chromium } = require('playwright');
     // Open Siebel login page
     // waitUntil: networkidle means wait until page fully loads
     await page.goto(
-      'https://10.59.17.85/siebel/app/edealer/enu?SWECmd=Start',
+      'https://access.ex.indianoil.in/oam/server/obrareq.cgi?encquery%3DpyBU%2BFw3MEIMiKdjRu57HREaQDngwcZmCLiSbnCJkjOhe%2BDpcLjES3UytJmECA%2BmXe6%2FoRrbMJDDzuOintSMHMd0hlZzKFYjyUsNCVpYodRUHT3%2BKryHBcKjPotEDjBdqMykgJEIhWN4IDS0xQ9s0Ecim8QJviw2t4ftDocuY1Lln%2Fvi8jYdrno0SIzmz0Q6vrdHrpJYpTbshjHa4YTPGusC7K5LEEIUN96%2B611%2FQBRzeJxDk49bn2CgsQEWHlgreSJqDS9Zsq1%2BhbTMKdtXS8tNGJN6gQ4qvswwGgD2YIb8ivVL1yotQWnq0XbrClj0zWSvO7Tj9QY8%2Fu4VvjPqGA%3D%3D%20agentid%3DSIEBEL_IP24%20ver%3D1%20crmethod%3D2%26cksum%3Dd60496c9c242a96d875c1ccf816c10e211295c3c&ECID-Context=1.006Jin1%5E%5EYOBl3o5oVG7yY0069nh0005bT%3BkXjE',
       {
         waitUntil: 'networkidle',
         timeout: 30000
