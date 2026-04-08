@@ -1,12 +1,6 @@
-// Import Playwright
 const { chromium } = require('playwright');
 
 (async () => {
-  const startTime = Date.now();
-
-  // Business SLA threshold = 30 sec
-  const threshold = 30000;
-
   const browser = await chromium.launch({
     headless: true
   });
@@ -16,73 +10,75 @@ const { chromium } = require('playwright');
   });
 
   try {
+    // Step 1: open page
     await page.goto(
-      'https://access.ex.indianoil.in/oam/server/obrareq.cgi?encquery%3DwuuojoyW8JsrnTFd6VYn%2F86v2WuU5YNS24cCYbV%2FEukwM%2F%2BpcrXRqswqGZuCm5ZLmYg9RizgjK1mZcTEZhh3ouLkN6D2%2Ft0CaGY4dGOHlNKLfQoslqp8oNOWRtEYFCXtNSb6ibktVMAmKP9LrrMOsYGzX85KLroHTuFB2MxXrAE8sKppgrWdCWC921BJN%2FBANy9QyWZFfzgqT6imyvVcD0PvqUQNlc5lc2IYP0N%2BvOWWbvlvUc6OkjgfG%2BkT0Js7kOPuy1IKCjv3Us8wYu5XfI4V5AVeve%2BGR3r0p4yT8jGSZaIwcaWDdUToyQgnJvVNrausz4jSUn72FAZ7964L%2BQ%3D%3D%20agentid%3DSIEBEL_IP24%20ver%3D1%20crmethod%3D2%26cksum%3D50d533f357b7c8942edd8314949c417ece6e08fa&ECID-Context=1.006JiuztxA8Bl3o5oVDCiY00CL8s001YT_%3BkXjE',
+      'https://access.ex.indianoil.in/oam/server/obrareq.cgi?encquery%3Dj08PdUKaFt32G2rab%2FWvOOsCa4csNXJCunoD4KTv2HNjziPgaOHRnimmEMK%2BqicTcuYOBIqns9gjTaVqncBt6Zqb9mnvab4MzXQQwLAboGgg5uKmcom7jOZj3rtoezwLiFM5mwDulIycdVE6YdXgQoqeGtvw0EAft1PVJUNLab5j6E%2B%2F0Znk30Bp6KT1x22RpWQph284rGuVezOuqbkO8QSG%2ByCN%2BDmofxc1dXGE305lW4jCtITKfv86bbhbSMeR6lAnsC5ZbhB0lIdHNnP0pFQ7XbRffXz8BCvNfs8aYqKK1gIs4JOJTWZGhUQ3yZGPMx%2BX7Q7Vxc%2FIEqQfuZDfJQ%3D%3D%20agentid%3DSIEBEL_IP24%20ver%3D1%20crmethod%3D2%26cksum%3Dff5085fd63a1897f9ef7d22eb1f8479389c3ebb3&ECID-Context=1.006JivmaKGxBt1o5oV9DiY005kIV001Vr%5E%3BkXjE',
       {
         waitUntil: 'domcontentloaded',
         timeout: 60000
       }
     );
 
-    console.log('Login page opened');
+    console.log('Step 1: page opened');
 
-    // Wait for exact username field
-    await page.waitForSelector('#username', {
-      timeout: 60000
+    await page.screenshot({
+      path: 'step1-page-opened.png',
+      fullPage: true
     });
 
-    // Fill username
-    await page.locator('#username')
-      .fill(process.env.SIEBEL_USERNAME);
+    // Wait 5 sec
+    await page.waitForTimeout(5000);
 
-    console.log('Username entered');
+    // Step 2 screenshot after wait
+    await page.screenshot({
+      path: 'step2-after-wait.png',
+      fullPage: true
+    });
 
-    // Fill password
-    await page.locator('#password')
-      .fill(process.env.SIEBEL_PASSWORD);
+    console.log('Step 2: after wait screenshot taken');
 
-    console.log('Password entered');
+    // Print HTML
+    const html = await page.content();
+    console.log(html.substring(0, 1000));
 
-    // Click Continue
+    // Step 3 try username field
+    await page.locator('#username').fill(process.env.SIEBEL_USERNAME);
+
+    await page.screenshot({
+      path: 'step3-username-filled.png',
+      fullPage: true
+    });
+
+    console.log('Step 3: username filled');
+
+    // Step 4 password
+    await page.locator('#password').fill(process.env.SIEBEL_PASSWORD);
+
+    await page.screenshot({
+      path: 'step4-password-filled.png',
+      fullPage: true
+    });
+
+    console.log('Step 4: password filled');
+
+    // Step 5 continue
     await page.locator('#submitid').click();
 
-    console.log('Continue clicked');
-
-    // Wait for dashboard / next page
-    await page.waitForLoadState('networkidle', {
-      timeout: 60000
+    await page.screenshot({
+      path: 'step5-after-login-click.png',
+      fullPage: true
     });
 
-    const loginTime = Date.now() - startTime;
-
-    console.log(`Login successful in ${loginTime} ms`);
-
-    // Threshold check
-    if (loginTime > threshold) {
-      throw new Error(
-        `Threshold exceeded: ${loginTime} ms`
-      );
-    }
-
-    // Logout flow
-    await page
-      .getByRole('menuitem', { name: 'Settings' })
-      .click({ timeout: 10000 });
-
-    await page
-      .getByRole('button', { name: 'Logout' })
-      .click({ timeout: 10000 });
-
-    console.log('Logout successful');
+    console.log('Step 5: continue clicked');
 
     await browser.close();
     process.exit(0);
 
   } catch (error) {
-    console.error('LOGIN FAILED:', error.message);
+    console.error('DEBUG FAILED:', error.message);
 
     await page.screenshot({
-      path: 'login-failure.png',
+      path: 'debug-failure.png',
       fullPage: true
     });
 
